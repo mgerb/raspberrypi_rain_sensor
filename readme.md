@@ -20,3 +20,10 @@ and displays in a simple table.
 `pip3 install flask gpiozero`
 
 Run with: `python3 main.py`
+
+### How to run at startup
+
+- clone this repo in the home directory
+- copy `sensor_startup.sh` to the home directory
+- `crontab -e`
+- add the following line: `sh $HOME/sensor_startup.sh`
