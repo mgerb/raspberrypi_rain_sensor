@@ -5,6 +5,8 @@ import threading
 import time
 import datetime
 
+# how many seconds before recording the next reading
+readTimeout = 2
 gpioPin = 18
 app = Flask(__name__)
 
@@ -28,10 +30,10 @@ def query_db(query, args=(), one=False):
 def query_dates() -> str:
     data = query_db(
         "select date(timestamp, 'unixepoch') as date, count(*) as count from rain_sensor group by date(timestamp, 'unixepoch')")
-    out = "<table><thead><th>Date</th><th>Count</th></thead><tbody>"
+    out = "<table><thead><th>Date</th><th>Inches</th></thead><tbody>"
 
     for d in data:
-        out += "<tr><td>" + d[0] + "</td><td>" + str(d[1]) + "</td></tr>"
+        out += "<tr><td>" + d[0] + "</td><td>" + str(d[1] / 100) + "</td></tr>"
 
     out += "</tbody></table>"
     return out
@@ -66,8 +68,8 @@ def rain_sensor_task():
     while True:
         if button.is_pressed:
             insert_date(int(datetime.datetime.utcnow().timestamp()))
-            time.sleep(5)
-        time.sleep(0.01)
+            time.sleep(readTimeout)
+        time.sleep(0.001)
 
 
 @app.teardown_appcontext
