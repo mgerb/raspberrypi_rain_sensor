@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS rain_sensor (
+	id INTEGER PRIMARY KEY,
+	timestamp INTEGER NOT NULL
+);
