@@ -29,7 +29,7 @@ def query_db(query, args=(), one=False):
 
 def query_dates() -> str:
     data = query_db(
-        "select date(timestamp, 'unixepoch') as date, count(*) as count from rain_sensor group by date(timestamp, 'unixepoch')")
+        "select date(timestamp, 'unixepoch') as date, count(*) as count from rain_sensor group by date(timestamp, 'unixepoch') order by date desc")
     out = "<table><thead><th>Date</th><th>Inches</th></thead><tbody>"
 
     for d in data:
